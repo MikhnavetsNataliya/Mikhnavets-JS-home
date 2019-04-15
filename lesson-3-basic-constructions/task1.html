@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Task1</title>
+</head>
+<body>
+  <script>
+    var userString = prompt('Введите строку', '');
+
+    function countVowelLetter(str) {
+      var count = 0;
+      var littleWordString = str.toLowerCase();
+      var transformString = littleWordString.split('');
+      var vowelLetters = ['а', 'е', 'ё', 'и', 'о', 'у', 'ы', 'э', 'ю', 'я'];
+      transformString.filter(function (commonElement) {
+        for (var i = 0; i < vowelLetters.length; i++) {
+          if (commonElement === vowelLetters[i]) {
+            count += 1;
+          }
+        }
+      });
+      return count ? count : "гласных букв не обнаружено";
+    }
+
+    console.log('Количество гласных букв в строке = ' + countVowelLetter(userString));
+
+  </script>
+</body>
+</html>
