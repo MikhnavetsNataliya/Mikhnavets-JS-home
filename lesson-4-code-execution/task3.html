@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Task3</title>
+</head>
+<body>
+  <script>
+    function isNumeric(n) {
+      return !isNaN(parseFloat(n)) && isFinite(n)
+    }
+
+    var numbers = [];
+    var result = 0;
+
+    do {
+      var userNumb = prompt('Введите число', '0');
+      numbers.push(+userNumb);
+    } while (isNumeric(userNumb));
+
+    for (var i = 0; i < numbers.length; i++){
+      result +=numbers[i];
+    }
+
+    alert(result);
+  </script>
+</body>
+</html>
