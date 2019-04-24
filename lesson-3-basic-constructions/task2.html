@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Task2</title>
+</head>
+<body>
+<script>
+  var userFirstName = prompt('Введите Ваше имя', '');
+  var userSecondName = prompt('Введите Ваше отчество', '');
+  var userLastName = prompt('Введите Вашу фамилию', '');
+  var userAge = parseInt(prompt('Сколько Вам лет?', ''), 10);
+  var userGender = confirm('Ваш пол мужской?');
+  var userPension = false;
+
+  var fullName = userFirstName + ' ' + userSecondName + ' ' + userLastName;
+  var ageInDays = userAge * 365;
+  var futureAge = userAge + 5;
+
+  userGender = (userGender) ? 'мужской' : 'женский';
+  userPension = (userPension) ? 'да' : 'нет';
+
+  if (userGender && (userAge >= 63)) {
+    userPension = 'да ';
+  } else if (!userGender && (userAge >= 58)) {
+    userPension = 'да';
+  }
+
+  while (userFirstName === null) {
+    userFirstName = prompt('Введите Ваше имя', '');
+    if (userFirstName !== null) {
+      alert(userFirstName);
+      if (!isNaN(userFirstName)) {
+        alert('Введите корректное имя!');
+      } else {
+        userFirstName = userFirstName.slice(0);
+      }
+    }
+  }
+
+  while (userSecondName === null) {
+    userSecondName = prompt('Введите Ваше имя', '');
+    if (userSecondName !== null) {
+      alert(userSecondName);
+      if (!isNaN(userSecondName)) {
+        alert('Введите корректное имя!');
+      } else {
+        userSecondName = userSecondName.slice(0);
+      }
+    }
+  }
+
+  while (userLastName === null) {
+    userLastName = prompt('Введите Ваше имя', '');
+    if (userLastName !== null) {
+      alert(userLastName);
+      if (!isNaN(userLastName)) {
+        alert('Введите корректное имя!');
+      } else {
+        userLastName = userLastName.slice(0);
+      }
+    }
+  }
+
+  while (userAge === null) {
+    userAge = prompt('Сколько Вам лет?', '');
+    if (userAge !== null) {
+      alert(userAge);
+      userAge = userAge.replace(/,/g, ".");
+      userAge = userAge === '' ? 0 : Math.abs(userAge);
+      if (isNaN(userAge)) {
+        alert('Укажите возраст числом!');
+      } else if (userAge > 130) {
+        alert('Введите корректные данные!');
+      } else {
+        userAge = parseInt(userAge);
+      }
+    }
+  }
+
+  var finalMessage = 'ваше ФИО: ' + fullName + '\n' +
+    'ваш возраст в годах: ' + userAge + '\n' +
+    'ваш возраст в днях: ' + ageInDays + '\n' +
+    'через 5 лет вам будет: ' + futureAge + '\n' +
+    'ваш пол: ' + userGender + '\n' +
+    'вы на пенсии: ' + userPension;
+
+  alert(finalMessage);
+
+</script>
+</body>
+</html>
