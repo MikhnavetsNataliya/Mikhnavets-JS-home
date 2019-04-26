@@ -1,5 +1,5 @@
 var obj = {
-  className: 'menu open menu'
+  className: 'menu open menu menu'
 };
 
 function removeClassName(obj, cls) {
@@ -7,10 +7,12 @@ function removeClassName(obj, cls) {
   for (var i = 0; i < arrClassName.length; i++) {
     if (arrClassName[i] === cls) {
       arrClassName.splice(i, 1);
+      i--;
     }
   }
   obj.className.length === 0 ? obj.className = arrClassName.join('') : obj.className = arrClassName.join(' ');
 }
 
 removeClassName(obj, 'menu');
-console.log(obj.className);
+alert(obj.className);
+alert('Длина строки: ' + obj.className.length);

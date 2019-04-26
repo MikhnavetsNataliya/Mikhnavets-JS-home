@@ -1,19 +1,19 @@
 var str = '';
-var row = prompt('Введите количество символов в строке');
-var col = prompt('Введите количество сток');
+var elemStr = prompt('Введите количество символов в строке');
+var row = prompt('Введите количество стpок');
 
 while (true) {
-  var colS = parseInt(col);
+  var elemStrS = parseInt(elemStr);
   var rowS = parseInt(row);
-  if (!isNaN(colS) && !isNaN(rowS)) {
+  if (!isNaN(elemStrS) && !isNaN(rowS)) {
     break;
   }
-  row = prompt('Введите количество символов в строке в верном формате');
-  col = prompt('Введите количество строк в верном формате');
+  elemStr = prompt('Введите количество символов в строке в верном формате');
+  row = prompt('Введите количество строк в верном формате');
 }
 
 for (var i = 0; i < row; i++) {
-  for (var j = 0; j < col; j++) {
+  for (var j = 0; j < elemStr; j++) {
     ((i + j) % 2 === 0) ? str += '#' : str += ' ';
   }
   str += '\n';
