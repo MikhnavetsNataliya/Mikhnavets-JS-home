@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Polindrom</title>
+</head>
+<body>
+  <script>
+    function isPal(string) {
+      var directlyString = string.toLowerCase().split(' ').join('').split('').join('');
+      var converselyString = string.toLowerCase().split(' ').join('').split('').reverse().join('');
+
+      return true ? (directlyString === converselyString) : false;
+    }
+
+    module.exports = isPal;
+  </script>
+</body>
+</html>
