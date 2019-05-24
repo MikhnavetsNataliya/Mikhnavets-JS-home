@@ -1,0 +1,33 @@
+.message-drink {
+    width: 100%;
+    max-width: 50em;
+    margin: 0 auto;
+}
+
+.drink-card {
+    margin: 0 auto;
+}
+
+button, .info-drink {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    padding: 1em;
+    margin: 1em auto;
+    width: 100%;
+    max-width: 24em;
+    font: 1rem Arial, sans-serif;
+    font-size: 1em;
+    font-weight: 600;
+    line-height: 1.9;
+    letter-spacing: 0.05em;
+}
+
+.info-drink {
+    width: 22em;
+    height: 3.4em;
+    border: 0.1em solid black;
+    border-radius: 0.63em;
+    overflow: hidden;
+    outline: none;
+}
