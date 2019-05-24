@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Anagram</title>
+</head>
+<body>
+  <script>
+
+    function anClean() {
+      var obj = {};
+      var result = [];
+
+      for (var i = 0; i < arr.length; i++) {
+        var sorting = arr[i].toLowerCase().split('').sort().join('');
+        obj[sorting] = arr[i];
+      }
+      for (var sortWord in obj)
+        result.push(obj[sortWord]);
+      return result;
+    }
+
+    module.exports = anClean;
+
+  </script>
+</body>
+</html>
