@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <div>
+    <img id="pic1" src="./img/racoon-1.jpg" alt="racoon-1">
+    <img id="pic2" src="./img/racoon-2.jpg" alt="racoon-2">
+    <img id="pic3" src="./img/racoon-3.jpg" alt="racoon-3">
+  </div>
+
+
+  <script>
+    var dragImage;
+    var dragShiftX;
+    var dragShiftY;
+
+    var pictures = document.getElementsByTagName("img");
+
+    for (var i = 0; i < pictures.length; i++) {
+      pictures[i].style.position = 'absolute';
+      pictures[i].style.width = pictures[i].offsetWidth / 2 + 'px';
+      pictures[i].style.left = pictures[i].offsetLeft + 'px';
+      pictures[i].style.top = pictures[i].offsetTop + 'px';
+
+      pictures[i].addEventListener('mousedown', dragStart);
+
+      function dragStart(EO) {
+        dragImage = EO.target;
+        dragImage.style.position = 'absolute';
+
+        dragShiftX = EO.pageX - dragImage.offsetLeft;
+        dragShiftY = EO.pageY - dragImage.offsetTop;
+
+        dragMove(EO);
+        document.body.appendChild(dragImage);
+
+        dragImage.style.zIndex = 100;
+
+        function dragMove(EO) {
+          dragImage.style.left = EO.pageX - dragShiftX + 'px';
+          dragImage.style.top = EO.pageY - dragShiftY + 'px';
+        }
+
+        document.addEventListener('mousemove', dragMove);
+        dragImage.addEventListener('mouseup', dragStop);
+
+        function dragStop() {
+          document.removeEventListener('mousemove', dragMove);
+          dragImage.removeEventListener('mouseup', dragStop);
+        }
+      }
+
+      pictures[i].ondragstart = function () {
+        return false;
+      };
+    }
+
+  </script>
+</body>
+</html>
