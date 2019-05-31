@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+  <form name="my-form"></form>
+
+  <script>
+
+    var arrData = [
+      {
+        label: 'Разработчики:',
+        type: 'text',
+        value: '',
+        width: 300
+      },
+      {
+        label: 'Название сайта:',
+        type: 'text',
+        value: '',
+        width: 300
+      },
+      {
+        label: 'URL сайта:',
+        type: 'url',
+        value: '',
+        width: 300
+      },
+      {
+        label: 'Дата запуска сайта:',
+        type: 'date',
+        value: '',
+        width: 300
+      },
+      {
+        label: 'Посетителей в сутки:',
+        type: 'number',
+        value: '',
+        width: 300
+      },
+      {
+        label: 'E-mail для связи:',
+        type: 'email',
+        value: '',
+        width: 300
+      },
+      {
+        label: 'Рубрика каталога:',
+        type: 'select',
+        option: ['здоровье', 'домашний уют', 'бытовая техника'],
+      },
+      {
+        label: "Размещение:",
+        type: 'radio',
+        value: ['бесплатное', 'платное', 'VIP']
+      },
+      {
+        label: 'Разрешить отзывы:',
+        type: 'checkbox'
+      },
+      {
+        label: 'Описание сайта:',
+        type: 'textarea',
+        value: '',
+        width: 600,
+        height: 300
+      },
+      {
+        label: 'Опубликовать',
+        type: 'submit',
+        value: '',
+        width: 150
+      }
+    ];
+
+    function FormCreate(array, nameForm) {
+      var myForm = document.forms[nameForm];
+      var clnForm = myForm.cloneNode(true);
+
+      var fieldForm = '';
+      var lineBreak = document.createElement('br');
+
+      for (var i = 0; i < array.length; i++) {
+        switch (array[i].type) {
+          case ('text'):
+            createLabel(array);
+            fieldForm += createInputText(array) + lineBreak;
+            break;
+
+          case ('url'):
+            createLabel(array);
+            fieldForm += createInputURL(array) + lineBreak;
+            break;
+
+          case ('data'):
+            createLabel(array);
+            fieldForm += createInputData(array) + lineBreak;
+            break;
+
+          case ('number'):
+            createLabel(array);
+            fieldForm += createInputNumber(array) + lineBreak;
+            break;
+
+          case ('email'):
+            createLabel(array);
+            fieldForm += createInputEmail(array) + lineBreak;
+            break;
+
+          case ('select'):
+            createLabel(array);
+            fieldForm += createSelect(array) + lineBreak;
+            break;
+
+          case ('radio'):
+            createLabel(array);
+            fieldForm += createRadio(array) + lineBreak;
+            break;
+
+          case ('checkbox'):
+            createLabel(array);
+            fieldForm += createCheckbox(array) + lineBreak;
+            break;
+
+          case ('textarea'):
+            createLabel(array);
+            fieldForm += createTextarea(array) + lineBreak;
+            break;
+
+          case ('submit'):
+            createLabel(array);
+            fieldForm += createSubmit(array) + lineBreak;
+            break;
+
+          default:
+            fieldForm += createLabel(array) + lineBreak;
+        }
+      }
+      clnForm.appendChild(fieldForm);
+      clnForm.setAttribute('action', 'http://fe.it-academy.by/TestForm.php');
+    }
+
+    function createLabel(arr) {
+      var labelTag = document.createElement('label');
+      var labelText = document.createTextNode(arr[i].label);
+      return labelTag.appendChild(labelText);
+    }
+
+    function createInputText(arr) {
+      var inputText = document.createElement('input');
+      inputText.setAttribute('type', arr.type);
+      inputText.setAttribute('value', arr.value);
+      inputText.style.setAttribute('width', arr.width + 'px');
+      //inputTag.setAttribute('hight', arr[i].hight);
+    }
+
+    function createInputURL(arr) {
+      var inputURL = document.createElement('input');
+      inputURL.setAttribute('type', arr.type);
+      inputURL.setAttribute('value', arr.value);
+      inputURL.style.setAttribute('width', arr.width + 'px');
+    }
+
+    function createInputData(arr) {
+      var inputData = document.createElement('input');
+      inputData.setAttribute('type', arr.type);
+      inputData.setAttribute('value', arr.value);
+      inputData.style.setAttribute('width', arr.width + 'px');
+    }
+
+    function createInputNumber(arr) {
+      var inputNumber = document.createElement('input');
+      inputNumber.setAttribute('type', arr.type);
+      inputNumber.setAttribute('value', arr.value);
+      inputNumber.style.setAttribute('width', arr.width + 'px');
+    }
+
+    function createInputEmail(arr) {
+      var inputEmail = document.createElement('input');
+      inputEmail.setAttribute('type', arr.type);
+      inputEmail.setAttribute('value', arr.value);
+      inputEmail.style.setAttribute('width', arr.width + 'px');
+    }
+
+    //select недоработан((
+
+    function createSelect(arr) {
+      var slct = document.createElement('select');
+      var slctOption = document.createElement('option');
+      for (var i = 0; i <= arr.option.length; i++) {
+        var newOption = new Option(arr[i]);
+        newOption += newOption;
+      }
+      slct.appendChild(newOption);
+      newOption.selected = true;
+    }
+
+    function createRadio(arr) {
+    }
+
+    function createCheckbox(arr) {
+      var inputCheckbox = document.createElement('input');
+      inputCheckbox.setAttribute('type', arr.type);
+
+    }
+
+    alert(FormCreate(arrData, 'my-form'));
+
+  </script>
+
+</body>
+</html>
