@@ -1,10 +1,10 @@
 'use strict';
 
-var radiusClockWrap = 200;
-var radiusClockTime = 40;
+var radiusClockWrap = 200; // радиус часов
+var radiusClockTime = 40; // радиус окружности под цифрой
 var radiusClockNumber = 150; // расстояние от центра часов до цифер
 var hourNumb = 12; //цифры часов
-var angleVal = 0;
+var angleVal = 0; //стартовый угол расположения стрелок
 var angleStep = 30; //угол между цифрами на часах
 
 var arrowHour;
@@ -24,12 +24,8 @@ var numericalClockWidth = 120;
 var numericalClockHeight = 30;
 var radiusNumericalClock = 100;
 
-//определяем по времени, где находится стрелка часов
-var time = new Date();
-var degHour = 30 * (time.getHours() + (1 / 60) * time.getMinutes());
-var degMinute = 6 * (time.getMinutes() + (1 / 60) * time.getSeconds());
-var degSecond = 6 * time.getSeconds() - 6;
 
+// UI
 var divClockWrap = document.createElement("div");
 divClockWrap.style.position = 'relative';
 divClockWrap.style.margin = '0 auto';
@@ -45,21 +41,24 @@ var divClockWrapCenterX = divClockWrap.offsetLeft + divClockWrap.offsetWidth / 2
 var divClockWrapCenterY = divClockWrap.offsetTop + divClockWrap.offsetHeight / 2;
 
 // нумерация
-for (var i = 1; i <= hourNumb.length; i++) {
+function createClockFace() {
   var wrapClockFace = document.createElement("div");
-  wrapClockFace.classList.add('wrapClockFace');
-  wrapClockFace.innerHTML = i;
-  createClockFaceProperty();
-  divClockWrap.appendChild(wrapClockFace);
+  for (var i = 1; i <= hourNumb.length; i++) {
+    wrapClockFace.classList.add('wrapClockFace');
+    wrapClockFace.innerHTML = i;
+    createClockFaceProperty();
+    divClockWrap.appendChild(wrapClockFace);
 
-  angleVal += angleStep;
-  var angle = angleVal / 180 * Math.PI;
+    angleVal += angleStep;
+    var angle = angleVal / 180 * Math.PI;
 
-  var wrapClockFaceCenterX = divClockWrapCenterX + radiusClockNumber * Math.sin(angle);
-  var wrapClockFaceCenterY = divClockWrapCenterY - radiusClockNumber * Math.cos(angle);
+    var wrapClockFaceCenterX = divClockWrapCenterX + radiusClockNumber * Math.sin(angle);
+    var wrapClockFaceCenterY = divClockWrapCenterY - radiusClockNumber * Math.cos(angle);
 
-  wrapClockFace.style.left = Math.round(wrapClockFaceCenterX - wrapClockFace.offsetWidth / 2) + 'px';
-  wrapClockFace.style.top = Math.round(wrapClockFaceCenterY - wrapClockFace.offsetHeight / 2) + 'px';
+    wrapClockFace.style.left = Math.round(wrapClockFaceCenterX - wrapClockFace.offsetWidth / 2) + 'px';
+    wrapClockFace.style.top = Math.round(wrapClockFaceCenterY - wrapClockFace.offsetHeight / 2) + 'px';
+  }
+  return wrapClockFace;
 }
 
 function createClockFaceProperty() {
@@ -135,7 +134,7 @@ function createNumericalClock() {
 }
 
 function createNumericalClockProperty() {
-  var numericalClockProperty = document.getElementsByClassName(numericalClock);
+  var numericalClockProperty = document.getElementsByClassName('numericalClock');
   numericalClockProperty.style.position = 'absolute';
   numericalClockProperty.style.width = numericalClockWidth + 'px';
   numericalClockProperty.style.height = numericalClockHeight + 'px';
@@ -151,8 +150,8 @@ var elemArrowMinute = createArrowMinute();
 var elemArrowSecond = createArrowSecond();
 var elemNumericalClock = createNumericalClock();
 
-//местоположение электронных часов (не знаю можно ли так делать: к функции прикреплять .style)
-elemNumericalClock.style.left = wrapClockFaceCenterX - numericalClock.offsetWidth / 2 + 'px';
+//местоположение электронных часов (не знаю можно ли так делать, я имею ввиду таким образом прикреплять .style)
+elemNumericalClock.style.left = wrapClockFaceCenterX - radiusNumericalClock.offsetWidth / 2 + 'px';
 elemNumericalClock.style.top = wrapClockFaceCenterY - radiusNumericalClock + 'px';
 
 //местоположение стрелок часа, минут, секунд
@@ -165,33 +164,33 @@ arrrowLocation(elemArrowHour);
 arrrowLocation(elemArrowMinute);
 arrrowLocation(elemArrowSecond);
 
-//точка трансфлрмации стрелок
-elemArrowHour.style.transformOrigin = 'center 80px';
-elemArrowMinute.style.transformOrigin = 'center 100px';
-elemArrowSecond.style.transformOrigin = 'center 120px';
+//LOGIC
+
+//определяем по времени, где находится стрелка часов
+function tickTimer() {
+  var timeStart = new Date();
+  var degHour = 30 * (time.getHours() + (1 / 60) * time.getMinutes());
+  var degMinute = 6 * (time.getMinutes() + (1 / 60) * time.getSeconds());
+  var degSecond = 6 * time.getSeconds() - 6;
+  startnumericalClock(timeStart);
+  startArrowcClock();
+}
 
 //электронные часы
-window.onload = function () {
-  window.setInterval(
-    function () {
-      var timeNumerical = new Date();
-      document.querySelector('.numericalClock').innerHTML = timeNumerical.toLocaleTimeString();
-    }
-    , 1000);
-};
+function startnumericalClock(time) {
+  document.querySelector('.numericalClock').innerHTML = time.toLocaleTimeString();
+}
 
 //стрелочные часы
-window.onload = function () {
-  window.setInterval(
-    function () {
-      degSecond += 6; //движение по 6 градусов каждую секунду
-      elemArrowSecond.style.transform = 'rotate(' + degSecond + 'deg';
+function startArrowcClock() {
+  degSecond += 6;
+  elemArrowSecond.style.transform = 'rotate(' + degSecond + 'deg';
 
-      degMinute += 6 * (1 / 60);
-      elemArrowMinute.style.transform = 'rotate(' + degMinute + 'deg';
+  degMinute += 6 * (1 / 60);
+  elemArrowMinute.style.transform = 'rotate(' + degMinute + 'deg';
 
-      degHour += 6 * (1 / 60);
-      elemArrowHour.style.transform = 'rotate(' + degHour + 'deg';
-    }
-    , 1000);
-};
+  degHour += 6 * (1 / 60);
+  elemArrowHour.style.transform = 'rotate(' + degHour + 'deg';
+}
+
+setInterval(tickTimer, 1000);
