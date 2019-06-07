@@ -1,9 +1,11 @@
 'use strict';
-const baseRadius = 300; //радиус циферблата
-const numbersBaseRadius = baseRadius / 2.5; //радиус оси цифр циферблата
-const circleRadius = 30; // радиус кружков с цифрами
-const dotSize = 14; //размер точки в центре часов
-const wrapper = document.getElementById('wrapper');
+var baseRadius = 300; //радиус циферблата
+var numbersBaseRadius = baseRadius / 2.5; //радиус оси цифр циферблата
+var circleRadius = 30; // радиус кружков с цифрами
+var centerBaseCircleX = baseRadius; // координаты центра циферблата по Х
+var centerBaseCircleY = baseRadius; // координаты центра циферблата по У
+var dotSize = 14; //размер точки в центре часов
+var wrapper = document.getElementById('wrapper');
 
 wrapper.appendChild(createWatch());
 setInterval(tickTimer, 1000);
@@ -13,14 +15,14 @@ setInterval(tickTimer, 1000);
 function createWatch() {
   var blockSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   blockSVG.setAttribute('id', 'clock');
-  blockSVG.setAttribute('width', baseRadius);
-  blockSVG.setAttribute('hight', baseRadius);
-  blockSVG.appendChild(createSVGClock('white smoke', 10, 'white'));
+  blockSVG.setAttribute('width', baseRadius * 2);
+  blockSVG.setAttribute('hight', baseRadius * 2);
+  blockSVG.appendChild(createSVGClock('whiteSmoke', 10, 'white'));
   blockSVG.appendChild(createSVGClockFace());
-  blockSVG.appendChild(createSVGDigitalWatch());
-  blockSVG.appendChild(createArrow('hours', 6, 70, 3, 3, 'black', 'black'));
-  blockSVG.appendChild(createArrow('minutes', 4, 100, 3, 3, 'black', 'black'));
-  blockSVG.appendChild(createArrow('seconds', 2, 140, 3, 3, 'red', 'red'));
+  blockSVG.appendChild(createSVGDigitalWatch(180, 80));
+  blockSVG.appendChild(createSVGArrow('hours', 6, 70, 3, 3, 'black', 'black'));
+  blockSVG.appendChild(createSVGArrow('minutes', 4, 100, 3, 3, 'black', 'black'));
+  blockSVG.appendChild(createSVGArrow('seconds', 2, 140, 3, 3, 'red', 'red'));
   blockSVG.appendChild(createSVGDecorativeDot(dotSize));
   return blockSVG;
 }
@@ -30,7 +32,7 @@ function createSVGClock(stroke, strokeWidth, fill) {
   baseCircle.setAttribute('stroke', stroke);
   baseCircle.setAttribute('stroke-width', strokeWidth); // ширина бордера входит или нет
   baseCircle.setAttribute('fill', fill);
-  baseCircle.setAttribute('r', baseRadius /2);
+  baseCircle.setAttribute('r', baseRadius/2);
   baseCircle.setAttribute('cx', baseRadius /2);
   baseCircle.setAttribute('cy', baseRadius /2);
   return baseCircle;
@@ -41,9 +43,9 @@ function createSVGClockFace() {
   var clockFace = document.createElementNS("http://www.w3.org/2000/svg", "g");
   for (var number = 1; number <= 12; number++){
     var angle = number * 30 / 180 * Math.PI;
-    var x = ((baseRadius - circleRadius) / 2) + Math.round(Math.sin(angle) * numbersBaseRadius);
-    var y = ((baseRadius - circleRadius) / 2) - Math.round(Math.cos(angle) * numbersBaseRadius);
-    clockFace.appendChild(createSVGHourCircle(x, y, number));
+    var numbX = centerBaseCircleX + numbersBaseRadius * Math.round(Math.sin(angle) + Math.PI / 2);
+    var numbY = centerBaseCircleY - numbersBaseRadius * Math.round(Math.cos(angle) + Math.PI / 2);
+    clockFace.appendChild(createSVGHourCircle(numbX, numbY, number));
   }
   return clockFace;
 }
@@ -58,24 +60,37 @@ function createSVGHourCircle(circleX, circleY, number){
   return circleNumb;
 }
 
-function createSVGDigitalWatch() {
-  var textClock = document.createElementNS("http://www.w3.org/2000/svg", "text");
-  textClock.setAttribute('id', 'textclock' );
-  textClock.setAttribute('x', baseRadius / 2 - 50 );
-  textClock.setAttribute('y', baseRadius / 2 + baseRadius / 10 );
+function createSVGDigitalWatch(widthDigital, heightDigital) {
+  var blockDigital = document.createElementNS("http://www.w3.org/2000/svg", "g");
+
+  var digitalBackground = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+  digitalBackground.setAttribute('x', centerBaseCircleX - widthDigital / 2);
+  digitalBackground.setAttribute('y', centerBaseCircleY - heightDigital * 2);
+  digitalBackground.setAttribute('width', widthDigital);
+  digitalBackground.setAttribute('height', heightDigital);
+  digitalBackground.setAttribute('fill', 'white');
+  blockDigital.appendChild(digitalBackground);
+  var textDigital = document.createElementNS("http://www.w3.org/2000/svg", "text");
+  textDigital.setAttribute('id', 'textclock' );
+  textDigital.setAttribute('x', centerBaseCircleX);
+  textDigital.setAttribute('y', heightDigital * 1.5);
+  textDigital.setAttribute('text-anchor', 'middle');
+
   ['hourstext', 'minutestext', 'secondstext'].map(watchDigits => {
-    var digits = createElementNS("http://www.w3.org/2000/svg", "tsspan");
+    var digits = document.createElementNS("http://www.w3.org/2000/svg", "tsspan");
     digits.setAttribute('id', watchDigits);
-    textClock.appendChild(digits);
+    textDigital.appendChild(digits);
   });
-  return textClock;
+
+  blockDigital.appendChild(textDigital);
+  return blockDigital;
 }
 
 function createSVGArrow(arrowType, arrowWidth, arrowHight, radiusRX, radiusRY, stroke, fill){
   var arrow = document.createElementNS("http://www.w3.org/2000/svg", "rect");
   arrow.setAttribute('id', arrowType + ' arrow');
-  arrow.setAttribute('x', baseRadius / 2 - (arrowWidth / 2));
-  arrow.setAttribute('y', baseRadius / 2);
+  arrow.setAttribute('x', centerBaseCircleX);
+  arrow.setAttribute('y', centerBaseCircleY);
   arrow.setAttribute('width', arrowWidth);
   arrow.setAttribute('hight', arrowHight);
   arrow.setAttribute('rx', radiusRX);
@@ -85,18 +100,19 @@ function createSVGArrow(arrowType, arrowWidth, arrowHight, radiusRX, radiusRY, s
   var arrowAnimate = document.createElementNS("http://www.w3.org/2000/svg", "animateTransform");
   arrowAnimate.setAttribute('attributeName', 'transform');
   arrowAnimate.setAttribute('type', 'rotate');
-  arrowAnimate.setAttribute('from', '0' + ' ' + '0' + ' ' + '0');
-  arrowAnimate.setAttribute('to', '360' + ' ' + '0' + ' ' + arrowWidth/2);
+  //вообще не уверена , что верно
+  arrowAnimate.setAttribute('from', '0' + ' ' + centerBaseCircleX + ' ' + centerBaseCircleY);
+  arrowAnimate.setAttribute('to', '360' + ' ' + centerBaseCircleX + ' ' + centerBaseCircleY);
   arrow.appendChild(arrowAnimate);
   return arrow;
 }
 
 function createSVGDecorativeDot(size){
   var dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-  arrow.setAttribute('id', 'dot');
-  arrow.setAttribute('cx', baseRadius / 2 - size / 2);
-  arrow.setAttribute('cy', baseRadius / 2 - size / 2);
-  arrow.setAttribute('r', size / 2);
+  dot.setAttribute('id', 'dot');
+  dot.setAttribute('cx', baseRadius / 2 - size / 2);
+  dot.setAttribute('cy', baseRadius / 2 - size / 2);
+  dot.setAttribute('r', size / 2);
   return dot;
 }
 
@@ -122,7 +138,12 @@ function updateWatch(hour, minute, second){
 
 function rotateHandle(handle, degree){
   var arrow = document.querySelector(`.${handle}`);
-  arrow.style.transform = `rotate(${degree}deg)`;
+  var arrowAnimate = document.createElementNS("http://www.w3.org/2000/svg", "animateTransform");
+  arrowAnimate.setAttribute('attributeName', 'transform');
+  arrowAnimate.setAttribute('attributeType', 'XML');
+  arrowAnimate.setAttribute('type', 'rotate');
+  // не поняла как в svg применяется transform
+  arrowAnimate.setAttribute('transform', degree + centerBaseCircleX + centerBaseCircleY);
 }
 
 function updateDigitalWatch(hour, minute, second){
