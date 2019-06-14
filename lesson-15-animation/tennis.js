@@ -14,7 +14,10 @@ var count2 = 0; // счет второго игрока
 
 var gameBlock; // блок игры: кнопка старт, счет, игровое поле
 var wrapper = document.getElementById('wrapper');
+/*
 wrapper.appendChild(createGame());
+requestAnimationFrame(Tick);
+*/
 
 // UI
 
