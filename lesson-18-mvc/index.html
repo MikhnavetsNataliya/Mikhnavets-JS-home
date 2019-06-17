@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MVC</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrapper">
+    <div class="manage-menu">
+      <input type='button' value='Добавить напиток' onclick='addDrink()'>
+      <input type='button' value='Показать информацию о напитке' onclick='showDrinkInfo()'>
+      <input type='button' value='Удалить напиток' onclick='removeDrink()'>
+      <input type='button' value='Показать меню напитков' onclick='showDrinksMenu()'>
+      <div id="messageDrink" class="drink-info"></div>
+    </div>
+
+    <div class="manage-menu">
+      <input type='button' value='Добавить блюдо' onclick='addDish()'>
+      <input type='button' value='Показать информацию о блюде' onclick='showDishInfo()'>
+      <input type='button' value='Удалить блюдо' onclick='removeDrink()'>
+      <input type='button' value='Показать меню блюд' onclick='showDishMenu()'>
+      <div id="messageDish" class="dish-info"></div>
+    </div>
+  </div>
+
+  <script src="localStorage.js"></script>
+  <script src="hashStorage.js"></script>
+
+</body>
+</html>
