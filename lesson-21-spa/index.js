@@ -28,7 +28,7 @@ function stateRefresh() {
     case 'articleList':
       getArticlesList();
       page += `<div class="container">`
-              <h2>Оглавление</h2>`;
+        < h2 > Оглавление < /h2>`;
       writeList();
       page += `</div>`;
       break;
@@ -45,9 +45,10 @@ function stateRefresh() {
   document.getElementById('page').innerHTML = page;
 
 }
+
 function writeList() {
   for (var key in StorageHash) {
-  //вывод ключей(статей) на страницу;
+    //вывод ключей(статей) на страницу;
   }
 }
 
